@@ -153,14 +153,19 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
     return when
     {
         (b == c) or (a == d) -> 0
-        (a >= c && a <= d && d >= a && d <= b) -> Math.abs((Math.abs(d) - Math.abs(a)))
-        (b >= c && b <= d && c >= a && c <= b) -> Math.abs((Math.abs(b) - Math.abs(c)))
-        (a >= c && b >= c && a <= d && b <= d && a == b) -> 0
-        (a >= c && b >= c && a <= d && b <= d && a <= 0) -> Math.abs(b) + Math.abs(a)
-        (a >= c && b >= c && a <= d && b <= d) -> Math.abs((Math.abs(b) - Math.abs(a)))
-        (c >= a && d >= a && c <= b && d <= b && c == d) -> 0
-        (c >= a && d >= a && c <= b && d <= b && c <= 0) -> Math.abs(d) + Math.abs(c)
-        (c >= a && d >= a && c <= b && d <= b) -> Math.abs((Math.abs(d) - Math.abs(c)))
+
+        (c >= a && c <= b && b >= c && b <= d) && ((b >= 0 && c >= 0 && d >= 0) || (a <= 0 && b <= 0 && c <= 0)) -> b - c
+        (c >= a && c <= b && b >= c && b <= d) && (a <= 0 && b >= 0 && c <= 0 && d >= 0) -> Math.abs(c) + b
+
+        (a >= c && a <= d && d >= a && d <= b) && ((d >= 0 && a >= 0 && b >= 0) || (c <= 0 && d <= 0 && a <= 0)) -> d - a
+        (a >= c && a <= d && d >= a && d <= b) && (c <= 0 && d >= 0 && a <= 0 && b >= 0) -> Math.abs(a) + d
+
+        (c >= a && c <= b && d >= a && d <= b) && ((c >= 0 && d >= 0) || (c <= 0 && d <= 0)) -> d - c
+        (c >= a && c <= b && d >= a && d <= b) && (c <= 0 && d >= 0) -> Math.abs(c) + d
+
+        (a >= c && a <= d && b >= c && b <= d) && ((a >= 0 && b >= 0) || (a <= 0 && b <= 0)) -> b - a
+        (a >= c && a <= d && b >= c && b <= d) && (a <= 0 && b >= 0) -> Math.abs(a) + b
+
         else -> -1
     }
 }
