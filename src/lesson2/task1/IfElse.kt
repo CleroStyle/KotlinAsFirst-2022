@@ -73,12 +73,12 @@ fun ageDescription(age: Int): String {
     if (age % 100 >= 11 && age % 100 <= 19) {
         return sage + " лет"
     }
-    when (age % 10) {
-        1 -> return sage + " год"
-        2 -> return sage + " года"
-        3 -> return sage + " года"
-        4 -> return sage + " года"
-        else -> return sage + " лет"
+    return when (age % 10) {
+        1 -> sage + " год"
+        2 -> sage + " года"
+        3 -> sage + " года"
+        4 -> sage + " года"
+        else -> sage + " лет"
     }
     return ""
 }
