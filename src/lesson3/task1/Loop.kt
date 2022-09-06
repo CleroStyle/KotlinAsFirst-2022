@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
+import lesson8.task2.square
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -80,7 +82,19 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var result = 0
+    var nextResult = 1
+    var postNextResult = 1
+    for (i in 1..n) {
+        val tempNextResult = nextResult
+        val tempPostNextResult = postNextResult
+        postNextResult += nextResult
+        nextResult = tempPostNextResult
+        result = tempNextResult
+    }
+    return result
+}
 
 /**
  * Простая (2 балла)
@@ -192,7 +206,26 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var counter = 0
+    for (i in 1..n * 10000000) {
+        var number = sqr(i)
+        var squareNumber = revertNumber(number)
+
+        while (squareNumber != 0) {
+            counter++
+            if (n == counter) return squareNumber % 10
+            squareNumber /= 10
+        }
+
+        while (number % 10 == 0) {
+            counter++
+            if (n == counter) return 0
+            number /= 10
+        }
+    }
+    return 1
+}
 
 /**
  * Сложная (5 баллов)
@@ -203,4 +236,28 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var counter = 0
+    for (i in 1..n) {
+        var fibNumber = revertNumber(fib(i))
+
+        while (fibNumber != 0) {
+            counter++
+            if (n == counter) return fibNumber % 10
+            fibNumber /= 10
+        }
+    }
+    return 1
+}
+
+fun revertNumber(n: Int): Int {
+    var number = n
+    var revertedNumber = 0
+
+    while (number != 0) {
+        revertedNumber = revertedNumber * 10 + (number % 10)
+        number /= 10
+    }
+
+    return revertedNumber
+}
