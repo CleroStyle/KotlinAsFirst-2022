@@ -3,6 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -70,17 +71,16 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     val sage = age.toString()
-    if (age % 100 >= 11 && age % 100 <= 19) {
-        return sage + " лет"
+    if (age % 100 in 11..19) {
+        return "$sage лет"
     }
     return when (age % 10) {
-        1 -> sage + " год"
-        2 -> sage + " года"
-        3 -> sage + " года"
-        4 -> sage + " года"
-        else -> sage + " лет"
+        1 -> "$sage год"
+        2 -> "$sage года"
+        3 -> "$sage года"
+        4 -> "$sage года"
+        else -> "$sage лет"
     }
-    return ""
 }
 
 /**
@@ -148,17 +148,17 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
     (b == c) or (a == d) -> 0
 
-    (c >= a && c <= b && b >= c && b <= d) && ((b >= 0 && c >= 0 && d >= 0) || (a <= 0 && b <= 0 && c <= 0)) -> b - c
-    (c >= a && c <= b && b >= c && b <= d) && (a <= 0 && b >= 0 && c <= 0 && d >= 0) -> Math.abs(c) + b
+    (c in a..b && b <= d) && ((b >= 0 && c >= 0) || b <= 0) -> b - c
+    (c in a..b && b <= d) -> abs(c) + b
 
-    (a >= c && a <= d && d >= a && d <= b) && ((d >= 0 && a >= 0 && b >= 0) || (c <= 0 && d <= 0 && a <= 0)) -> d - a
-    (a >= c && a <= d && d >= a && d <= b) && (c <= 0 && d >= 0 && a <= 0 && b >= 0) -> Math.abs(a) + d
+    (a in c..d && d <= b) && ((d >= 0 && a >= 0) || d <= 0) -> d - a
+    (a in c..d && d <= b) -> abs(a) + d
 
-    (c >= a && c <= b && d >= a && d <= b) && ((c >= 0 && d >= 0) || (c <= 0 && d <= 0)) -> d - c
-    (c >= a && c <= b && d >= a && d <= b) && (c <= 0 && d >= 0) -> Math.abs(c) + d
+    (c in a..b && d >= a) && ((c >= 0 && d >= 0) || (c <= 0 && d <= 0)) -> d - c
+    (c in a..b && d >= a) && c <= 0 -> abs(c) + d
 
-    (a >= c && a <= d && b >= c && b <= d) && ((a >= 0 && b >= 0) || (a <= 0 && b <= 0)) -> b - a
-    (a >= c && a <= d && b >= c && b <= d) && (a <= 0 && b >= 0) -> Math.abs(a) + b
+    (a in c..d && b >= c) && ((a >= 0 && b >= 0) || (a <= 0 && b <= 0)) -> b - a
+    (a in c..d && b >= c) && (a <= 0) -> abs(a) + b
 
     else -> -1
 }
