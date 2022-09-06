@@ -145,22 +145,20 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
-        (b == c) or (a == d) -> 0
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    (b == c) or (a == d) -> 0
 
-        (c >= a && c <= b && b >= c && b <= d) && ((b >= 0 && c >= 0 && d >= 0) || (a <= 0 && b <= 0 && c <= 0)) -> b - c
-        (c >= a && c <= b && b >= c && b <= d) && (a <= 0 && b >= 0 && c <= 0 && d >= 0) -> Math.abs(c) + b
+    (c >= a && c <= b && b >= c && b <= d) && ((b >= 0 && c >= 0 && d >= 0) || (a <= 0 && b <= 0 && c <= 0)) -> b - c
+    (c >= a && c <= b && b >= c && b <= d) && (a <= 0 && b >= 0 && c <= 0 && d >= 0) -> Math.abs(c) + b
 
-        (a >= c && a <= d && d >= a && d <= b) && ((d >= 0 && a >= 0 && b >= 0) || (c <= 0 && d <= 0 && a <= 0)) -> d - a
-        (a >= c && a <= d && d >= a && d <= b) && (c <= 0 && d >= 0 && a <= 0 && b >= 0) -> Math.abs(a) + d
+    (a >= c && a <= d && d >= a && d <= b) && ((d >= 0 && a >= 0 && b >= 0) || (c <= 0 && d <= 0 && a <= 0)) -> d - a
+    (a >= c && a <= d && d >= a && d <= b) && (c <= 0 && d >= 0 && a <= 0 && b >= 0) -> Math.abs(a) + d
 
-        (c >= a && c <= b && d >= a && d <= b) && ((c >= 0 && d >= 0) || (c <= 0 && d <= 0)) -> d - c
-        (c >= a && c <= b && d >= a && d <= b) && (c <= 0 && d >= 0) -> Math.abs(c) + d
+    (c >= a && c <= b && d >= a && d <= b) && ((c >= 0 && d >= 0) || (c <= 0 && d <= 0)) -> d - c
+    (c >= a && c <= b && d >= a && d <= b) && (c <= 0 && d >= 0) -> Math.abs(c) + d
 
-        (a >= c && a <= d && b >= c && b <= d) && ((a >= 0 && b >= 0) || (a <= 0 && b <= 0)) -> b - a
-        (a >= c && a <= d && b >= c && b <= d) && (a <= 0 && b >= 0) -> Math.abs(a) + b
+    (a >= c && a <= d && b >= c && b <= d) && ((a >= 0 && b >= 0) || (a <= 0 && b <= 0)) -> b - a
+    (a >= c && a <= d && b >= c && b <= d) && (a <= 0 && b >= 0) -> Math.abs(a) + b
 
-        else -> -1
-    }
+    else -> -1
 }
