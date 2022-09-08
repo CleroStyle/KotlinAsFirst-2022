@@ -236,18 +236,23 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    /*var counter = 0
-    println("${fib(0)}")
-    for (i in 1..n) {
-        var fibNumber = revertNumber(fib(i))
-
-        while (fibNumber != 0) {
+    var counter: Int = 1
+    for (i: Int in 1..n) {
+        var fibNumber: Int = fib(i)
+        var revertedFibNumber: Int = revertNumber(fibNumber)
+        while (revertedFibNumber != 0) {
+            if (n == counter) return (revertedFibNumber % 10).toInt()
+            revertedFibNumber /= 10
             counter++
-            if (n == counter) return fibNumber % 10
-            fibNumber /= 10
         }
-    }*/
-    return 1
+
+        while (fibNumber % 10 == 0) {
+            if (n == counter) return 0
+            fibNumber /= 10
+            counter++
+        }
+    }
+    return -1
 }
 
 fun revertNumber(n: Long): Long {
@@ -255,6 +260,18 @@ fun revertNumber(n: Long): Long {
     var revertedNumber = 0L
 
     while (number != 0L) {
+        revertedNumber = revertedNumber * 10 + (number % 10)
+        number /= 10
+    }
+
+    return revertedNumber
+}
+
+fun revertNumber(n: Int): Int {
+    var number = n
+    var revertedNumber = 0
+
+    while (number != 0) {
         revertedNumber = revertedNumber * 10 + (number % 10)
         number /= 10
     }
