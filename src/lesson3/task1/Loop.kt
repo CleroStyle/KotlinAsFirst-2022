@@ -208,17 +208,17 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
     var counter = 1
-    for (i in 1..Int.MAX_VALUE) {
+    for (i in 1..Long.MAX_VALUE) {
         var number = i * i
         var revertedNumber = revertNumber(number)
-        while (revertedNumber != 0) {
-            if (counter == n) return revertedNumber % 10
+        while (revertedNumber != 0L) {
+            if (counter == n) return (revertedNumber % 10).toInt()
             revertedNumber /= 10
             counter++
         }
 
-        while (number % 10 == 0) {
-            if (counter == n) return number % 10
+        while (number % 10 == 0L) {
+            if (counter == n) return 0
             number /= 10
             counter++
         }
@@ -236,7 +236,7 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var counter = 0
+    /*var counter = 0
     println("${fib(0)}")
     for (i in 1..n) {
         var fibNumber = revertNumber(fib(i))
@@ -246,15 +246,15 @@ fun fibSequenceDigit(n: Int): Int {
             if (n == counter) return fibNumber % 10
             fibNumber /= 10
         }
-    }
+    }*/
     return 1
 }
 
-fun revertNumber(n: Int): Int {
+fun revertNumber(n: Long): Long {
     var number = n
-    var revertedNumber = 0
+    var revertedNumber = 0L
 
-    while (number != 0) {
+    while (number != 0L) {
         revertedNumber = revertedNumber * 10 + (number % 10)
         number /= 10
     }
