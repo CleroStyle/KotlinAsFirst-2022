@@ -207,23 +207,23 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var counter = 1
-    for (i in 1..Int.MAX_VALUE) {
-        var number = (i * i).toLong()
-        var revertedNumber = revertNumber(number)
-        while (revertedNumber != 0L) {
-            if (counter == n) return (revertedNumber % 10).toInt()
-            revertedNumber /= 10
+    var counter: Int = 1
+    for (i: Long in 1..Long.MAX_VALUE) {
+        var doubleNumber: Long = i * i
+        var revertedDoubleNumber: Long = revertNumber(doubleNumber)
+        while (revertedDoubleNumber != 0L) {
+            if (n == counter) return (revertedDoubleNumber % 10).toInt()
+            revertedDoubleNumber /= 10
             counter++
         }
 
-        while (number % 10 == 0L) {
-            if (counter == n) return 0
-            number /= 10
+        while (doubleNumber % 10 == 0L) {
+            if (n == counter) return 0
+            doubleNumber /= 10
             counter++
         }
     }
-    return 0
+    return -1
 }
 
 /**
