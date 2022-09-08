@@ -208,8 +208,8 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
     var counter = 1
-    for (i in 1..Long.MAX_VALUE) {
-        var number = i * i
+    for (i in 1..Int.MAX_VALUE) {
+        var number = (i * i).toLong()
         var revertedNumber = revertNumber(number)
         while (revertedNumber != 0L) {
             if (counter == n) return (revertedNumber % 10).toInt()
