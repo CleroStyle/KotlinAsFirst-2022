@@ -87,8 +87,22 @@ fun fib(n: Int): Int {
     var nextResult = 0
     var postNextResult = 1
     for (i in 0..n) {
-        val tempNextResult = nextResult
-        val tempPostNextResult = postNextResult
+        val tempNextResult: Int = nextResult
+        val tempPostNextResult: Int = postNextResult
+        postNextResult += nextResult
+        nextResult = tempPostNextResult
+        result = tempNextResult
+    }
+    return result
+}
+
+fun fib(n: Long): Long {
+    var result: Long = 1
+    var nextResult: Long = 0
+    var postNextResult: Long = 1
+    for (i in 0..n) {
+        val tempNextResult: Long = nextResult
+        val tempPostNextResult: Long = postNextResult
         postNextResult += nextResult
         nextResult = tempPostNextResult
         result = tempNextResult
@@ -238,15 +252,15 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var counter: Int = 1
     for (i: Int in 1..n) {
-        var fibNumber: Int = fib(i)
-        var revertedFibNumber: Int = revertNumber(fibNumber)
-        while (revertedFibNumber != 0) {
+        var fibNumber: Long = fib(i.toLong())
+        var revertedFibNumber: Long = revertNumber(fibNumber)
+        while (revertedFibNumber != 0L) {
             if (n == counter) return (revertedFibNumber % 10).toInt()
             revertedFibNumber /= 10
             counter++
         }
 
-        while (fibNumber % 10 == 0) {
+        while (fibNumber % 10 == 0L) {
             if (n == counter) return 0
             fibNumber /= 10
             counter++
@@ -260,18 +274,6 @@ fun revertNumber(n: Long): Long {
     var revertedNumber = 0L
 
     while (number != 0L) {
-        revertedNumber = revertedNumber * 10 + (number % 10)
-        number /= 10
-    }
-
-    return revertedNumber
-}
-
-fun revertNumber(n: Int): Int {
-    var number = n
-    var revertedNumber = 0
-
-    while (number != 0) {
         revertedNumber = revertedNumber * 10 + (number % 10)
         number /= 10
     }
