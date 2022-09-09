@@ -395,7 +395,8 @@ fun russian(n: Int): String {
             5 -> {
                 when (n % 100000 / 10000) {
                     1 -> {
-                        result += " ${tenths[n % 10000 / 1000 - 1]} ${thousands[0]}"
+                        result += if (n % 10000 / 1000 != 0) " ${tenths[n % 10000 / 1000 - 1]} ${thousands[0]}"
+                        else " ${dozens[0]} ${thousands[0]}"
                         counter -= 2
                     }
 
