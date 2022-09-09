@@ -257,14 +257,10 @@ fun russian(n: Int): String {
         counter++
         number /= 10
     }
-    var firstCount: Int = counter
 
-    var result: String = ""
-
-    var k = 0
+    var result = ""
 
     while (counter > 0) {
-        k++
         when (counter) {
             1 -> when (n % 10) {
                 1 -> {
@@ -519,8 +515,12 @@ fun russian(n: Int): String {
 
             5 -> when (n % 100000 / 10000) {
                 0 -> {
-                    result += " тысяч"
-                    counter -= 2
+                    if (n % 10000 / 1000 == 0) {
+                        result += " тысяч"
+                        counter -= 2
+                        continue
+                    }
+                    counter--
                 }
 
                 1 -> when (n % 10000 / 1000) {
