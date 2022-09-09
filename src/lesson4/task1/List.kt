@@ -300,6 +300,49 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
+
+    val thousands = listOf(
+        "тысяч",
+        "одна тысяча",
+        "две тысячи",
+        "три тысячи",
+        "четыри тысячи",
+        "пять тысяч",
+        "шесть тысяч",
+        "семь тысячь",
+        "восемь тысяч",
+        "девять тысяч"
+    )
+
+    val hundreds =
+        listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+
+    val dozens = listOf(
+        "десять",
+        "двадцать",
+        "тридцать",
+        "сорок",
+        "пятьдесят",
+        "шестьдесят",
+        "семьдесят",
+        "восемьдесят",
+        "девяносто"
+    )
+
+    val tenths = listOf(
+        "одиннадцать",
+        "двенадцать",
+        "тринадцать",
+        "четырнадцать",
+        "пятнадцать",
+        "шестнадцать",
+        "семнадцать",
+        "восемнадцать",
+        "девятнадцать"
+    )
+
+    val unitDigit = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+
     var number: Int = n
     var counter = 0
     while (number != 0) {
@@ -311,468 +354,66 @@ fun russian(n: Int): String {
 
     while (counter > 0) {
         when (counter) {
-            1 -> when (n % 10) {
-                1 -> {
-                    result += " один"
-                    break
-                }
-
-                2 -> {
-                    result += " два"
-                    break
-                }
-
-                3 -> {
-                    result += " три"
-                    break
-                }
-
-                4 -> {
-                    result += " четыре"
-                    break
-                }
-
-                5 -> {
-                    result += " пять"
-                    break
-                }
-
-                6 -> {
-                    result += " шесть"
-                    break
-                }
-
-                7 -> {
-                    result += " семь"
-                    break
-                }
-
-                8 -> {
-                    result += " восемь"
-                    break
-                }
-
-                9 -> {
-                    result += " девять"
-                    break
-                }
-
-                else -> break
+            1 -> {
+                if (n % 10 != 0) result += " ${unitDigit[n % 10 - 1]}"
+                break
             }
 
-            2 -> when (n % 100 / 10) {
-                1 -> when (n % 10) {
+            2 -> {
+                when (n % 100 / 10) {
                     1 -> {
-                        result += " одиннадцать"
-                        break
-                    }
+                        when (n % 10) {
+                            0 -> {
+                                result += " ${dozens[0]}"
+                                break
+                            }
 
-                    2 -> {
-                        result += " двенадцать"
-                        break
-                    }
-
-                    3 -> {
-                        result += " тринадцать"
-                        break
-                    }
-
-                    4 -> {
-                        result += " четырнадцать"
-                        break
-                    }
-
-                    5 -> {
-                        result += " пятнадцать"
-                        break
-                    }
-
-                    6 -> {
-                        result += " шестнадцать"
-                        break
-                    }
-
-                    7 -> {
-                        result += " семнадцать"
-                        break
-                    }
-
-                    8 -> {
-                        result += " восемнадцать"
-                        break
-                    }
-
-                    9 -> {
-                        result += " девятнадцать"
-                        break
-                    }
-
-                    0 -> {
-                        result += " десять"
-                        break
-                    }
-                }
-
-                2 -> {
-                    result += " двадцать"
-                    counter--
-                }
-
-                3 -> {
-                    result += " тридцать"
-                    counter--
-                }
-
-                4 -> {
-                    result += " сорок"
-                    counter--
-                }
-
-                5 -> {
-                    result += " пятьдесят"
-                    counter--
-                }
-
-                6 -> {
-                    result += " шестьдесят"
-                    counter--
-                }
-
-                7 -> {
-                    result += " семьдесят"
-                    counter--
-                }
-
-                8 -> {
-                    result += " восемьдесят"
-                    counter--
-                }
-
-                9 -> {
-                    result += " девяносто"
-                    counter--
-                }
-
-                else -> {
-                    counter--
-                }
-            }
-
-            3 -> when (n % 1000 / 100) {
-                1 -> {
-                    result += " сто"
-                    counter--
-                }
-
-                2 -> {
-                    result += " двести"
-                    counter--
-                }
-
-                3 -> {
-                    result += " триста"
-                    counter--
-                }
-
-                4 -> {
-                    result += " четыреста"
-                    counter--
-                }
-
-                5 -> {
-                    result += " пятьсот"
-                    counter--
-                }
-
-                6 -> {
-                    result += " шестьсот"
-                    counter--
-                }
-
-                7 -> {
-                    result += " семьсот"
-                    counter--
-                }
-
-                8 -> {
-                    result += " восемьсот"
-                    counter--
-                }
-
-                9 -> {
-                    result += " девятьсот"
-                    counter--
-                }
-
-                else -> {
-                    counter--
-                }
-
-            }
-
-            4 -> when (n % 10000 / 1000) {
-                1 -> {
-                    result += " тысяча"
-                    counter--
-                }
-
-                2 -> {
-                    result += " две тысячи"
-                    counter--
-                }
-
-                3 -> {
-                    result += " три тысячи"
-                    counter--
-                }
-
-                4 -> {
-                    result += " четыре тысячи"
-                    counter--
-                }
-
-                5 -> {
-                    result += " пять тысяч"
-                    counter--
-                }
-
-                6 -> {
-                    result += " шесть тысяч"
-                    counter--
-                }
-
-                7 -> {
-                    result += " семь тысяч"
-                    counter--
-                }
-
-                8 -> {
-                    result += " восемь тысяч"
-                    counter--
-                }
-
-                9 -> {
-                    result += " девять тысяч"
-                    counter--
-                }
-
-                else -> {
-                    counter--
-                }
-
-            }
-
-            5 -> when (n % 100000 / 10000) {
-                0 -> {
-                    if (n % 10000 / 1000 == 0) {
-                        result += " тысяч"
-                        counter -= 2
-                        continue
-                    }
-                    counter--
-                }
-
-                1 -> when (n % 10000 / 1000) {
-                    0 -> {
-                        result += " десять тысяч"
-                        counter -= 2
-                    }
-
-                    1 -> {
-                        result += " одиннадцать тысяч"
-                        counter -= 2
-                    }
-
-                    2 -> {
-                        result += " двенадцать тысяч"
-                        counter -= 2
-                    }
-
-                    3 -> {
-                        result += " тринадцать тысяч"
-                        counter -= 2
-                    }
-
-                    4 -> {
-                        result += " четырнадцать тысяч"
-                        counter -= 2
-                    }
-
-                    5 -> {
-                        result += " пятнадцать тысяч"
-                        counter -= 2
-                    }
-
-                    6 -> {
-                        result += " шестнадцать тысяч"
-                        counter -= 2
-                    }
-
-                    7 -> {
-                        result += " семнадцать тысяч"
-                        counter -= 2
-                    }
-
-                    8 -> {
-                        result += " восемнадцать тысяч"
-                        counter -= 2
-                    }
-
-                    9 -> {
-                        result += " девятнадцать тысяч"
-                        counter -= 2
-                    }
-                }
-
-                2 -> when (n % 10000 / 1000) {
-                    1 -> {
-                        result += " двадцать одна"
-                        counter--
+                            else -> {
+                                result += " ${tenths[n % 10 - 1]}"
+                                break
+                            }
+                        }
                     }
 
                     else -> {
-                        result += " двадцать"
-                        counter--
-                    }
-                }
-
-                3 -> when (n % 10000 / 1000) {
-                    1 -> {
-                        result += " тридцать одна"
-                        counter--
-                    }
-
-                    else -> {
-                        result += " тридцать"
-                        counter--
-                    }
-                }
-
-                4 -> when (n % 10000 / 1000) {
-                    1 -> {
-                        result += " сорок одна"
-                        counter--
-                    }
-
-                    else -> {
-                        result += " сорок"
-                        counter--
-                    }
-                }
-
-                5 -> when (n % 10000 / 1000) {
-                    1 -> {
-                        result += " пятьдесят одна"
-                        counter--
-                    }
-
-                    else -> {
-                        result += " пятьдесят"
-                        counter--
-                    }
-                }
-
-                6 -> when (n % 10000 / 1000) {
-                    1 -> {
-                        result += " шестьдесят одна"
-                        counter--
-                    }
-
-                    else -> {
-                        result += " шестьдесят"
-                        counter--
-                    }
-                }
-
-                7 -> when (n % 10000 / 1000) {
-                    1 -> {
-                        result += " семьдесят одна"
-                        counter--
-                    }
-
-                    else -> {
-                        result += " семьдесят"
-                        counter--
-                    }
-                }
-
-                8 -> when (n % 10000 / 1000) {
-                    1 -> {
-                        result += " восемьдесят одна"
-                        counter--
-                    }
-
-                    else -> {
-                        result += " восемьдесят"
-                        counter--
-                    }
-                }
-
-                9 -> when (n % 10000 / 1000) {
-                    1 -> {
-                        result += " девяносто одна"
-                        counter--
-                    }
-
-                    else -> {
-                        result += " девяносто"
+                        if (n % 100 / 10 != 0) result += " ${dozens[n % 100 / 10 - 1]}"
                         counter--
                     }
                 }
             }
 
-            6 -> when (n % 1000000 / 100000) {
-                1 -> {
-                    result += "сто"
-                    counter--
-                }
+            3 -> {
+                if (n % 1000 / 100 != 0) result += " ${hundreds[n % 1000 / 100 - 1]}"
+                counter--
+            }
 
-                2 -> {
-                    result += "двести"
-                    counter--
-                }
+            4 -> {
+                result += " ${thousands[n % 10000 / 1000]}"
+                counter--
+            }
 
-                3 -> {
-                    result += "триста"
-                    counter--
-                }
+            5 -> {
+                when (n % 100000 / 10000) {
+                    1 -> {
+                        result += " ${tenths[n % 10000 / 1000 - 1]} ${thousands[0]}"
+                        counter -= 2
+                    }
 
-                4 -> {
-                    result += "четыреста"
-                    counter--
+                    else -> {
+                        result += if (n % 100000 / 10000 != 0) " ${dozens[n % 100000 / 10000 - 1]} ${thousands[n % 10000 / 1000]}"
+                        else " ${thousands[n % 10000 / 1000]}"
+                        counter -= 2
+                    }
                 }
+            }
 
-                5 -> {
-                    result += "пятьсот"
-                    counter--
-                }
-
-                6 -> {
-                    result += "шестьсот"
-                    counter--
-                }
-
-                7 -> {
-                    result += "семьсот"
-                    counter--
-                }
-
-                8 -> {
-                    result += "восемьсот"
-                    counter--
-                }
-
-                9 -> {
-                    result += "девятьсот"
-                    counter--
-                }
-
-                else -> {
-                    counter--
-                }
+            6 -> {
+                result += hundreds[n % 1000000 / 100000 - 1]
+                counter -= 1
             }
         }
     }
+
     return checkString(result)
 }
 
