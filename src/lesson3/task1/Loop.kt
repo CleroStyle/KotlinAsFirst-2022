@@ -4,6 +4,7 @@ package lesson3.task1
 
 import lesson1.task1.sqr
 import lesson8.task2.square
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -74,7 +75,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var number: Int = n
+    var counter = 0
+
+    do {
+        counter++
+        number /= 10
+    } while (number != 0)
+
+    return counter
+}
 
 /**
  * Простая (2 балла)
@@ -87,8 +98,8 @@ fun fib(n: Int): Int {
     var nextResult = 0
     var postNextResult = 1
     for (i in 0..n) {
-        val tempNextResult: Int = nextResult
-        val tempPostNextResult: Int = postNextResult
+        val tempNextResult = nextResult
+        val tempPostNextResult = postNextResult
         postNextResult += nextResult
         nextResult = tempPostNextResult
         result = tempNextResult
@@ -97,12 +108,12 @@ fun fib(n: Int): Int {
 }
 
 fun fib(n: Long): Long {
-    var result: Long = 1
-    var nextResult: Long = 0
-    var postNextResult: Long = 1
+    var result = 1L
+    var nextResult = 0L
+    var postNextResult = 1L
     for (i in 0..n) {
-        val tempNextResult: Long = nextResult
-        val tempPostNextResult: Long = postNextResult
+        val tempNextResult = nextResult
+        val tempPostNextResult = postNextResult
         postNextResult += nextResult
         nextResult = tempPostNextResult
         result = tempNextResult
@@ -166,7 +177,29 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var number = n
+    var revertedNumber = 0
+
+    while (number != 0) {
+        revertedNumber = revertedNumber * 10 + (number % 10)
+        number /= 10
+    }
+
+    return revertedNumber
+}
+
+fun revert(n: Long): Long {
+    var number = n
+    var revertedNumber = 0L
+
+    while (number != 0L) {
+        revertedNumber = revertedNumber * 10 + (number % 10)
+        number /= 10
+    }
+
+    return revertedNumber
+}
 
 /**
  * Средняя (3 балла)
@@ -177,7 +210,7 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя (3 балла)
@@ -221,10 +254,10 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var counter: Int = 1
+    var counter = 1
     for (i: Int in 1..n) {
         var doubleNumber: Long = (i * i).toLong()
-        var revertedDoubleNumber: Long = revertNumber(doubleNumber)
+        var revertedDoubleNumber: Long = revert(doubleNumber)
         while (revertedDoubleNumber != 0L) {
             if (n == counter) return (revertedDoubleNumber % 10).toInt()
             revertedDoubleNumber /= 10
@@ -250,10 +283,10 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var counter: Int = 1
+    var counter = 1
     for (i: Int in 1..n) {
         var fibNumber: Long = fib(i.toLong())
-        var revertedFibNumber: Long = revertNumber(fibNumber)
+        var revertedFibNumber = revert(fibNumber)
         while (revertedFibNumber != 0L) {
             if (n == counter) return (revertedFibNumber % 10).toInt()
             revertedFibNumber /= 10
@@ -267,16 +300,4 @@ fun fibSequenceDigit(n: Int): Int {
         }
     }
     return -1
-}
-
-fun revertNumber(n: Long): Long {
-    var number = n
-    var revertedNumber = 0L
-
-    while (number != 0L) {
-        revertedNumber = revertedNumber * 10 + (number % 10)
-        number /= 10
-    }
-
-    return revertedNumber
 }

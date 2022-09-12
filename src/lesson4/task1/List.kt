@@ -3,6 +3,8 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.digitNumber
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -120,14 +122,27 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var result = 0.0
+    for (i in v) {
+        result += i.pow(2)
+    }
+    return sqrt(result)
+}
 
 /**
  * Простая (2 балла)
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    if (list.isEmpty()) return 0.0
+    var result = 0.0
+    for (i in list) {
+        result += i
+    }
+    return result / list.size
+}
 
 /**
  * Средняя (3 балла)
@@ -137,7 +152,13 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val mean = mean(list)
+    for (i in list.indices) {
+        list[i] -= mean
+    }
+    return list
+}
 
 /**
  * Средняя (3 балла)
@@ -247,20 +268,15 @@ fun roman(n: Int): String {
     val dozens = listOf("X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
     val unitDigit = listOf("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
 
-    var number: Int = n
-    var counter = 0
-    while (number != 0) {
-        counter++
-        number /= 10
-    }
+    var counter = digitNumber(n)
 
-    var result = ""
+    val result = StringBuilder()
 
     while (counter > 0) {
         when (counter) {
             1 -> {
                 if (n % 10 == 0) break
-                result += unitDigit[n % 10 - 1]
+                result.append(unitDigit[n % 10 - 1])
                 break
             }
 
@@ -269,7 +285,7 @@ fun roman(n: Int): String {
                     counter--
                     continue
                 }
-                result += dozens[n % 100 / 10 - 1]
+                result.append(dozens[n % 100 / 10 - 1])
                 counter--
             }
 
@@ -278,18 +294,18 @@ fun roman(n: Int): String {
                     counter--
                     continue
                 }
-                result += hundreds[n % 1000 / 100 - 1]
+                result.append(hundreds[n % 1000 / 100 - 1])
                 counter--
             }
 
             4 -> {
-                result += thousands[n % 10000 / 1000 - 1]
+                result.append(thousands[n % 10000 / 1000 - 1])
                 counter--
             }
         }
     }
 
-    return result
+    return result.toString()
 }
 
 /**
@@ -343,19 +359,14 @@ fun russian(n: Int): String {
 
     val unitDigit = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
 
-    var number: Int = n
-    var counter = 0
-    while (number != 0) {
-        counter++
-        number /= 10
-    }
+    var counter = digitNumber(n)
 
-    var result = ""
+    val result = StringBuilder()
 
     while (counter > 0) {
         when (counter) {
             1 -> {
-                if (n % 10 != 0) result += " ${unitDigit[n % 10 - 1]}"
+                if (n % 10 != 0) result.append(" ${unitDigit[n % 10 - 1]}")
                 break
             }
 
@@ -364,68 +375,60 @@ fun russian(n: Int): String {
                     1 -> {
                         when (n % 10) {
                             0 -> {
-                                result += " ${dozens[0]}"
+                                result.append(" ${dozens[0]}")
                                 break
                             }
 
                             else -> {
-                                result += " ${tenths[n % 10 - 1]}"
+                                result.append(" ${tenths[n % 10 - 1]}")
                                 break
                             }
                         }
                     }
 
                     else -> {
-                        if (n % 100 / 10 != 0) result += " ${dozens[n % 100 / 10 - 1]}"
+                        if (n % 100 / 10 != 0) result.append(" ${dozens[n % 100 / 10 - 1]}")
                         counter--
                     }
                 }
             }
 
             3 -> {
-                if (n % 1000 / 100 != 0) result += " ${hundreds[n % 1000 / 100 - 1]}"
+                if (n % 1000 / 100 != 0) result.append(" ${hundreds[n % 1000 / 100 - 1]}")
                 counter--
             }
 
             4 -> {
-                result += " ${thousands[n % 10000 / 1000]}"
+                result.append(" ${thousands[n % 10000 / 1000]}")
                 counter--
             }
 
             5 -> {
                 when (n % 100000 / 10000) {
                     1 -> {
-                        result += if (n % 10000 / 1000 != 0) " ${tenths[n % 10000 / 1000 - 1]} ${thousands[0]}"
-                        else " ${dozens[0]} ${thousands[0]}"
+                        result.append(
+                            if (n % 10000 / 1000 != 0) " ${tenths[n % 10000 / 1000 - 1]} ${thousands[0]}"
+                            else " ${dozens[0]} ${thousands[0]}"
+                        )
                         counter -= 2
                     }
 
                     else -> {
-                        result += if (n % 100000 / 10000 != 0) " ${dozens[n % 100000 / 10000 - 1]} ${thousands[n % 10000 / 1000]}"
-                        else " ${thousands[n % 10000 / 1000]}"
+                        result.append(
+                            if (n % 100000 / 10000 != 0) " ${dozens[n % 100000 / 10000 - 1]} ${thousands[n % 10000 / 1000]}"
+                            else " ${thousands[n % 10000 / 1000]}"
+                        )
                         counter -= 2
                     }
                 }
             }
 
             6 -> {
-                result += hundreds[n % 1000000 / 100000 - 1]
+                result.append(hundreds[n % 1000000 / 100000 - 1])
                 counter -= 1
             }
         }
     }
 
-    return checkString(result)
-}
-
-fun checkString(s: String): String {
-    var newString: String = ""
-
-    for (i in s.indices) {
-        if (i == 0 && s[0] == ' ') continue
-        if (i == s.length - 1 && s[s.length - 1] == ' ') continue
-        newString += s[i]
-    }
-
-    return newString
+    return result.toString().trim()
 }
