@@ -76,7 +76,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var number: Int = n
+    var number = n
     var counter = 0
 
     do {
@@ -255,7 +255,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
     var counter = 1
-    for (i: Int in 1..n) {
+    for (i in 1..n) {
         var doubleNumber: Long = (i * i).toLong()
         var revertedDoubleNumber: Long = revert(doubleNumber)
         while (revertedDoubleNumber != 0L) {
@@ -284,7 +284,7 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var counter = 1
-    for (i: Int in 1..n) {
+    for (i in 1..n) {
         var fibNumber: Long = fib(i.toLong())
         var revertedFibNumber = revert(fibNumber)
         while (revertedFibNumber != 0L) {
