@@ -285,7 +285,7 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var counter = 1
     for (i in 1..n) {
-        var fibNumber: Long = fib(i.toLong())
+        var fibNumber = fib(i.toLong())
         var revertedFibNumber = revert(fibNumber)
         while (revertedFibNumber != 0L) {
             if (n == counter) return (revertedFibNumber % 10).toInt()
