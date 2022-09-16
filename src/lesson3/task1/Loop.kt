@@ -253,25 +253,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int {
-    var counter = 1
-    for (i in 1..n) {
-        var doubleNumber: Long = (i * i).toLong()
-        var revertedDoubleNumber: Long = revert(doubleNumber)
-        while (revertedDoubleNumber != 0L) {
-            if (n == counter) return (revertedDoubleNumber % 10).toInt()
-            revertedDoubleNumber /= 10
-            counter++
-        }
-
-        while (doubleNumber % 10 == 0L) {
-            if (n == counter) return 0
-            doubleNumber /= 10
-            counter++
-        }
-    }
-    return -1
-}
+fun squareSequenceDigit(n: Int): Int = sequenceDigit(n) { it * it }
 
 /**
  * Сложная (5 баллов)
@@ -282,20 +264,22 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int {
+fun fibSequenceDigit(n: Int): Int = sequenceDigit(n, ::fib)
+
+fun sequenceDigit(n: Int, function: (Long) -> Long): Int {
     var counter = 1
     for (i in 1..n) {
-        var fibNumber = fib(i.toLong())
-        var revertedFibNumber = revert(fibNumber)
-        while (revertedFibNumber != 0L) {
-            if (n == counter) return (revertedFibNumber % 10).toInt()
-            revertedFibNumber /= 10
+        var number = function(i.toLong())
+        var revertedNumber = revert(number)
+        while (revertedNumber != 0L) {
+            if (n == counter) return (revertedNumber % 10).toInt()
+            revertedNumber /= 10
             counter++
         }
 
-        while (fibNumber % 10 == 0L) {
+        while (number % 10 == 0L) {
             if (n == counter) return 0
-            fibNumber /= 10
+            number /= 10
             counter++
         }
     }
