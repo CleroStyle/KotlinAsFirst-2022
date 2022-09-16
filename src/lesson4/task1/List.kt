@@ -167,7 +167,13 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
+fun times(a: List<Int>, b: List<Int>): Int {
+    var res = 0
+    for (i in a.indices) {
+        res += a[i] * b[i]
+    }
+    return res
+}
 
 /**
  * Средняя (3 балла)
@@ -177,7 +183,23 @@ fun times(a: List<Int>, b: List<Int>): Int = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int = TODO()
+fun polynom(p: List<Int>, x: Int): Int {
+    var res = 0.0
+    for (i in p.indices) {
+        res += p[i] * (x.toDouble()).pow(i)
+    }
+    return res.toInt()
+}
+
+// can I use this function, or it's better to use function toDouble() for pow?
+fun Int.pow(pow: Int): Int {
+    if (pow == 0) return 1
+    var res = this
+    for (i in 1 until pow) {
+        res *= this
+    }
+    return res
+}
 
 /**
  * Средняя (3 балла)
@@ -189,7 +211,16 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    for (i in list.indices) {
+        var summ = 0
+        for (j in 0 until list.size - i) {
+            summ += list[j]
+        }
+        list[list.size - i - 1] = summ
+    }
+    return list
+}
 
 /**
  * Средняя (3 балла)
