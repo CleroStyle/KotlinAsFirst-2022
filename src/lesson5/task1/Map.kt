@@ -281,7 +281,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     val newMap = mutableMapOf<Int, Int>()
     for (i in list.indices) {
         val el = list[i]
-        if (number - el !in newMap) {
+        if (number - el in newMap) {
             return newMap[number - el]!! to i
         }
         newMap[el] = i
