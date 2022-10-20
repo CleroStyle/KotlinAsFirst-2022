@@ -312,6 +312,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     val treasures = treasures.toMutableMap()
+    var capacity = capacity
     var difference = Int.MAX_VALUE
     var elNumbers = 0
     while (elNumbers != treasures.size) {
@@ -322,6 +323,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
                     difference = capacity - treasure.value.first
                     treasure.setValue(0 to 0)
                     treasures[treasure.key] = treasure.value
+                    capacity--
                 }
             }
         }
