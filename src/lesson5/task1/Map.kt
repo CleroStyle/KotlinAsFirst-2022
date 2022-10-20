@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
+@file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence", "NAME_SHADOWING")
 
 package lesson5.task1
 
@@ -310,4 +310,28 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val treasures = treasures.toMutableMap()
+    var difference = Int.MAX_VALUE
+    var elNumbers = 0
+    while (elNumbers != treasures.size) {
+        elNumbers++
+        for (treasure in treasures) {
+            if (capacity - treasure.value.first > 0) {
+                if (difference > capacity - treasure.value.first) {
+                    difference = capacity - treasure.value.first
+                    treasure.setValue(0 to 0)
+                    treasures[treasure.key] = treasure.value
+                }
+            }
+        }
+    }
+
+    val result = mutableSetOf<String>()
+    for ((key, value) in treasures) {
+        if (value == 0 to 0) {
+            result.add(key)
+        }
+    }
+    return result
+}
