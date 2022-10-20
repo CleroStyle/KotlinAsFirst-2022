@@ -325,6 +325,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
                 }
             }
         }
+        difference = Int.MAX_VALUE
     }
 
     val result = mutableSetOf<String>()
