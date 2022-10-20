@@ -317,7 +317,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     while (elNumbers != treasures.size) {
         elNumbers++
         for (treasure in treasures) {
-            if (capacity - treasure.value.first > 0) {
+            if (capacity - treasure.value.first >= 0) {
                 if (difference > capacity - treasure.value.first) {
                     difference = capacity - treasure.value.first
                     treasure.setValue(0 to 0)
