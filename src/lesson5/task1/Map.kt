@@ -311,29 +311,36 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val result = mutableSetOf<String>()
     val treasures = treasures.toMutableMap()
+    val newTreasures = treasures.toMutableMap()
     var capacity = capacity
-    var difference = Int.MAX_VALUE
-    var elNumbers = 0
-    while (elNumbers != treasures.size) {
-        elNumbers++
-        for (treasure in treasures) {
-            if (capacity - treasure.value.first >= 0) {
-                if (difference >= capacity - treasure.value.first) {
-                    difference = capacity - treasure.value.first
-                    treasure.setValue(0 to 0)
-                    treasures[treasure.key] = treasure.value
-                    capacity--
+    var treasureNumber = Pair(0, 0)
+    var number = ""
+    var elNumber = 0
+    for ((key, value) in treasures) {
+        elNumber++
+        if (capacity >= value.first) {
+            if (treasureNumber.first == 0) {
+                treasureNumber = value
+                number = key
+                newTreasures.remove(key)
+            }
+            if (treasureNumber.first == value.first && value != treasureNumber) {
+                if (value.second > treasureNumber.second) {
+                    treasureNumber = value
+                    number = key
+                    newTreasures.remove(key)
                 }
             }
-        }
-        difference = Int.MAX_VALUE
-    }
-
-    val result = mutableSetOf<String>()
-    for ((key, value) in treasures) {
-        if (value == 0 to 0) {
-            result.add(key)
+            if (value.first != treasureNumber.first || elNumber == treasures.size) {
+                result.add(number)
+                capacity -= treasureNumber.second
+                bagPacking(newTreasures, capacity)
+            }
+        } else {
+            if (number != "") result.add(number)
+            continue
         }
     }
     return result
