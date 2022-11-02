@@ -162,7 +162,20 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val products = description.split("; ")
+    var max_price = Double.MIN_VALUE
+    var max_price_name = ""
+    for (product in products) {
+        if (product == "") continue
+        val product_list = product.split(" ")
+        if (product_list[1].toDouble() > max_price) {
+            max_price = product_list[1].toDouble()
+            max_price_name = product_list[0]
+        }
+    }
+    return max_price_name
+}
 
 /**
  * Сложная (6 баллов)
@@ -175,7 +188,23 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val numbers = mapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000)
+    var result_number = 0
+    for (i in 0..roman.length - 2) {
+        if (!numbers.containsKey(roman[i])) return -1
+        if (numbers[roman[i]]!! < numbers[roman[i + 1]]!!) {
+            result_number -= numbers[roman[i]]!!
+        } else {
+            result_number += numbers[roman[i]]!!
+        }
+    }
+
+    if (!numbers.containsKey(roman[roman.length - 1])) return -1
+    result_number += numbers[roman[roman.length - 1]]!!
+
+    return result_number
+}
 
 /**
  * Очень сложная (7 баллов)
