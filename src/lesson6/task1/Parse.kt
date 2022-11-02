@@ -164,10 +164,13 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  */
 fun mostExpensive(description: String): String {
     val products = description.split("; ")
-    var max_price = Double.MIN_VALUE
+    if (!description.contains("; ") && description != "") {
+        products.toMutableList().add(description)
+    }
+    var max_price = Int.MIN_VALUE.toDouble()
     var max_price_name = ""
     for (product in products) {
-        if (product == "") continue
+        if (product == "") break
         val product_list = product.split(" ")
         if (product_list[1].toDouble() > max_price) {
             max_price = product_list[1].toDouble()
@@ -189,6 +192,7 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
+    if (roman == "") return -1
     val numbers = mapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000)
     var result_number = 0
     for (i in 0..roman.length - 2) {
