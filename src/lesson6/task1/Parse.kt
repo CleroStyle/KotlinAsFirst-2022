@@ -193,6 +193,10 @@ fun mostExpensive(description: String): String {
  */
 fun fromRoman(roman: String): Int {
     if (roman == "") return -1
+    val symbols = "IVXLCDM"
+    for (ch in roman) {
+        if (ch !in symbols) return -1
+    }
     val numbers = mapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000)
     var result_number = 0
     for (i in 0..roman.length - 2) {
