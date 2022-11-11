@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import lesson4.task1.convertToString
-
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -281,14 +279,11 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     val newMap = mutableMapOf<Int, Int>()
-    for (i in list.indices) newMap[list[i]] = i
-    for (i in 0..number) {
-        if (newMap.containsKey(number - i) && newMap.containsKey(i) && (newMap[i] != newMap[number - i] || list.count { it == i } >= 2)) {
-            return if (newMap[i]!! > newMap[number - i]!!) {
-                newMap[number - i]!! to newMap[i]!!
-            } else {
-                newMap[i]!! to newMap[number - i]!!
-            }
+    for (i in list.indices) {
+        if (newMap.containsKey(number - list[i])) {
+            return newMap[number - list[i]]!! to i
+        } else {
+            newMap[list[i]] = i
         }
     }
     return -1 to -1
@@ -318,7 +313,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     /*val numberOfThings = treasures.size;
 
-    val result_table: Array<Array<Int>> = Array(numberOfThings + 1, { Array(capacity + 1, { 0 }) })
+    val resultTable: Array<Array<Int>> = Array(numberOfThings + 1) { Array(capacity + 1) { 0 } }
 
     val treasureNamesList = mutableListOf<String>()
 
@@ -327,13 +322,15 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     }
 
     for (i in 0 until numberOfThings) {
-        for (j in 0..capacity) {
-            if (i == 0 || j == 0) {
-                //if ()
+        for (j in 1..capacity) {
+            if (capacity >= treasures[treasureNamesList[i]]!!.first) {
+                resultTable[i][j] = maxOf(
+                    resultTable[i - 1][j],
+                    treasures[treasureNamesList[i]]!!.second +
+                            resultTable[i - 1][j - treasures[treasureNamesList[i]]!!.first]
+                )
             }
-            print("${result_table[i][j]}-${treasureNamesList[i]} ")
         }
-        println("new")
     }*/
 
     return emptySet()

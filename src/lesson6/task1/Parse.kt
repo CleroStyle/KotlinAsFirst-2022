@@ -163,21 +163,21 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть больше нуля либо равны нулю.
  */
 fun mostExpensive(description: String): String {
-    val products = description.split("; ")
-    if (!description.contains("; ") && description != "") {
-        products.toMutableList().add(description)
+    if (!Regex("""[а-яА-Яё]+ \d+(\.\d+)?(; [а-яА-Яё]+ \d+(\.\d+)?)*""").matches(description)) {
+        return ""
     }
-    var max_price = Int.MIN_VALUE.toDouble()
-    var max_price_name = ""
+    val products = description.split("; ")
+    var maxPrice = Int.MIN_VALUE.toDouble()
+    var maxPriceName = ""
     for (product in products) {
         if (product == "") break
-        val product_list = product.split(" ")
-        if (product_list[1].toDouble() > max_price) {
-            max_price = product_list[1].toDouble()
-            max_price_name = product_list[0]
+        val productList = product.split(" ")
+        if (productList[1].toDouble() > maxPrice) {
+            maxPrice = productList[1].toDouble()
+            maxPriceName = productList[0]
         }
     }
-    return max_price_name
+    return maxPriceName
 }
 
 /**
@@ -193,25 +193,26 @@ fun mostExpensive(description: String): String {
  */
 fun fromRoman(roman: String): Int {
     if (roman == "") return -1
-    val symbols = "IVXLCDM"
-    for (ch in roman) {
-        if (ch !in symbols) return -1
+
+    if (!Regex("""[IVXLCDM]+""").matches(roman)) {
+        return -1
     }
+
     val numbers = mapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000)
-    var result_number = 0
+    var resultNumber = 0
     for (i in 0..roman.length - 2) {
         if (!numbers.containsKey(roman[i])) return -1
         if (numbers[roman[i]]!! < numbers[roman[i + 1]]!!) {
-            result_number -= numbers[roman[i]]!!
+            resultNumber -= numbers[roman[i]]!!
         } else {
-            result_number += numbers[roman[i]]!!
+            resultNumber += numbers[roman[i]]!!
         }
     }
 
-    if (!numbers.containsKey(roman[roman.length - 1])) return -1
-    result_number += numbers[roman[roman.length - 1]]!!
+    if (!numbers.containsKey(roman.last())) return -1
+    resultNumber += numbers[roman.last()]!!
 
-    return result_number
+    return resultNumber
 }
 
 /**
