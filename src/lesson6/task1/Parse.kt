@@ -168,7 +168,7 @@ fun mostExpensive(description: String): String {
         return ""
     }
     val products = description.split("; ")
-    var maxPrice = Int.MIN_VALUE.toDouble()
+    var maxPrice = -Double.MAX_VALUE
     var maxPriceName = ""
     for (product in products) {
         if (product == "") break
