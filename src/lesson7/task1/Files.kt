@@ -322,7 +322,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         Regex("""~~([\S\s]*?)~~""").replace(stringWithoutI)
         { "<s>" + it.value.replace("~~", "") + "</s>" }
 
-    val textList = stringWithoutS.split("\r\n")
+    text.replace("\r", "")
+    val textList = stringWithoutS.split("\n")
 
     var result = "<html><body><p>"
 
