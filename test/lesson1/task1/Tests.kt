@@ -1,8 +1,10 @@
 package lesson1.task1
 
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.math.PI
 
 class Tests {
@@ -104,5 +106,24 @@ class Tests {
     fun numberRevert() {
         assertEquals(874, numberRevert(478))
         assertEquals(201, numberRevert(102))
+    }
+
+    @Test
+    fun myFun() {
+        assertEquals(
+            listOf<String>("ООО Горняк", "Вбербанк").sorted(),
+            myFun(
+                mapOf(
+                    "Производство напитков" to 4,
+                    "Горнодобывающая промышленность" to 12,
+                    "Банковские операции" to 9
+                ),
+                "ООО Горняк == Горнодобывающая промышленность : 100000\n" +
+                        "Вбербанк == Банковские операции : 190000\n" +
+                        "Вбербанк == Банковские операции : 123231\n" +
+                        "Политек Ведра == Образование : 9000000",
+                40000
+            )
+        )
     }
 }

@@ -310,54 +310,31 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    val textList = File(inputName).readText().lowercase().split("\r\n")
+    val text = File(inputName).readText()
+
+    val stringWithoutB =
+        Regex("""\*\*([\S\s]*?)\*\*""").replace(text)
+        { "<b>" + it.value.replace("**", "") + "</b>" }
+    val stringWithoutI =
+        Regex("""\*([\S\s]*?)\*""").replace(stringWithoutB)
+        { "<i>" + it.value.replace("*", "") + "</i>" }
+    val stringWithoutS =
+        Regex("""~~([\S\s]*?)~~""").replace(stringWithoutI)
+        { "<s>" + it.value.replace("~~", "") + "</s>" }
+
+    val textList = stringWithoutS.split("\r\n")
+
     var result = "<html><body><p>"
+
     for (listEl in textList.indices) {
-        if (textList[listEl].isEmpty()) {
-            result += if (textList.size == listEl + 1) "</p>" else "</p><p>"
-
+        if (textList[listEl].isEmpty() && listEl + 1 != textList.size) {
+            result += "</p><p>"
         } else {
-            for (el in textList[listEl].indices) {
-                // попробовать решить через split
-            }
+            result += textList[listEl]
         }
     }
-}
-
-fun changeSymbolsToHtml(charAt: Int, symbols: String, string: String): String {
-    var result = ""
-    var string = string
-    when (symbols) {
-        "*" -> {
-            result += "<i>"
-            string = string.substring(charAt + 1)
-            for (el in string.indices) {
-                if (string[el] == '*' && (if (el + 1 < string.length) string[el + 1] != '*' else true)) {
-                    result += "</i>"
-                    break
-                }
-                result += string[el]
-            }
-        }
-
-        "**" -> {
-            result += "<b>"
-            string = string.substring(charAt + 2)
-            for (el in string.indices - 1) {
-                if (el + 1 == string.length || string[el] + "" + string[el + 1] == "**") {
-                    result += "</b>"
-                    break
-                }
-                result += string[el]
-            }
-        }
-
-        "~~" -> {
-
-        }
-    }
-
-    return result
+    result += "</p></body></html>"
+    File(outputName).writeText(result)
 }
 
 /**

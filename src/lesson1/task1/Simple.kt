@@ -2,6 +2,7 @@
 
 package lesson1.task1
 
+import java.lang.IllegalArgumentException
 import kotlin.math.*
 
 // Урок 1: простые функции
@@ -130,3 +131,29 @@ fun accountInThreeYears(initial: Int, percent: Int): Double =
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int = number / 100 + ((number % 100) / 10) * 10 + (number % 10) * 100
+
+fun myFun(table: Map<String, Int>, taxes: String, limit: Int): List<String> {
+    val taxesList = taxes.split("\n")
+    for (tax in taxesList) {
+        if (!Regex("""(\S*==\S*:\d*)""").matches(tax.replace(" ", ""))) throw IllegalArgumentException()
+    }
+
+    val result = mutableListOf<String>()
+    val totalCompanyTaxes = mutableMapOf<String, Int>()
+    for (tax in taxesList) {
+        val taxList = tax.split(":")
+        val companyName = taxList[0].split("==")[0].trim()
+        val enterpriseType = taxList[0].split("==")[1].trim()
+        val taxNumber = taxList[1].trim().toInt()
+        val taxPercent = if (table[enterpriseType] != null) table[enterpriseType] else 42
+        val presentValue = totalCompanyTaxes[companyName]
+        val currentTax = taxPercent!! * taxNumber / 100
+        totalCompanyTaxes[companyName] = if (presentValue != null) presentValue + currentTax else currentTax
+    }
+
+    for ((key, value) in totalCompanyTaxes) {
+        if (value < limit) result.add(key)
+    }
+
+    return result.sorted()
+}
