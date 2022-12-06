@@ -322,12 +322,14 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         Regex("""~~([\S\s]*?)~~""").replace(stringWithoutI)
         { "<s>" + it.value.replace("~~", "") + "</s>" }
 
-    val result = "<html><body><p>$stringWithoutS</p></body></html>"
+    var result = "<html><body><p>$stringWithoutS</p></body></html>"
         .replace("\r", "")
         .replace("\t", "")
-        .replace("\n\n\n\n", "</p><p>")
-        .replace("\n\n", "</p><p>")
         .replace("\n \n", "</p><p>")
+
+    for (i in 1..10) {
+        result = result.replace("\n\n".repeat(i), "")
+    }
 
     File(outputName).writeText(result)
 }
