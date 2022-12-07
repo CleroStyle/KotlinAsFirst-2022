@@ -318,7 +318,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val stringWithoutI =
         Regex("""\*([\S\s]*?)\*""").replace(stringWithoutB)
         { "<i>" + it.value.replace("*", "") + "</i>" }
-    val stringWithoutS =
+    var stringWithoutS =
         Regex("""~~([\S\s]*?)~~""").replace(stringWithoutI)
         { "<s>" + it.value.replace("~~", "") + "</s>" }
             .replace("\r", "")
@@ -327,10 +327,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     for (i in 10 downTo 1) {
         val n = "\n\n".repeat(i)
         if (stringWithoutS.startsWith(n)) stringWithoutS.substring(n.length + 1)
-        stringWithoutS.replace(n, "</p><p>")
+        stringWithoutS = stringWithoutS.replace(n, "</p><p>")
     }
 
-    var result = "<html><body><p>$stringWithoutS</p></body></html>"
+    val result = "<html><body><p>$stringWithoutS</p></body></html>"
         .replace("\n \n", "</p><p>")
 
     File(outputName).writeText(result)
