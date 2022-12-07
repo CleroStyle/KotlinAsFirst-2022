@@ -328,7 +328,9 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         .replace("\n \n", "</p><p>")
 
     for (i in 10 downTo 1) {
-        result = result.replace("\n\n".repeat(i), "</p><p>")
+        val n = "\n\n".repeat(i)
+        if (result.startsWith(n)) result.substring(n.length + 1)
+        result = result.replace(n, "</p><p>")
     }
 
     File(outputName).writeText(result)
