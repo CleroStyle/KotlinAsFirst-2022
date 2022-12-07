@@ -325,8 +325,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             .replace("\t", "")
 
     for (i in 10 downTo 1) {
-        val n = "\n\n".repeat(i)
-        if (stringWithoutS.startsWith(n)) stringWithoutS.substring(n.length + 1)
+        val n = "\\n\\n".repeat(i)
+        if (stringWithoutS.startsWith(n)) stringWithoutS = stringWithoutS.substring(n.length)
         stringWithoutS = stringWithoutS.replace(n, "</p><p>")
     }
 
