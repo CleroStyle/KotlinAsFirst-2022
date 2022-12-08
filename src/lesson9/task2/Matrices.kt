@@ -251,31 +251,20 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
         val variants = mutableMapOf<Int, Pair<Int, Int>>()
         val first = zeroPosition.first
         val second = zeroPosition.second
-        if (second != 0
-            && second != 4
-            && second != 8
-            && second != 12
-        ) variants[matrix[first, second - 1]] =
+
+        if (second != 0) variants[matrix[first, second - 1]] =
             first to second - 1
-        if (second != 3
-            && second != 7
-            && second != 11
-            && second != 15
-        ) variants[matrix[first, second + 1]] =
+
+        if (second != 3) variants[matrix[first, second + 1]] =
             first to second + 1
-        if (second != 0
-            && second != 4
-            && second != 8
-            && second != 12
-        ) variants[matrix[first - 1, second]] =
+
+        if (first != 0) variants[matrix[first - 1, second]] =
             first - 1 to second
-        variants[matrix[first + 1, second]] =
+
+        if (first != 3) variants[matrix[first + 1, second]] =
             first + 1 to second
-        if (second != 0
-            && second != 4
-            && second != 8
-            && second != 12
-        ) if (!variants.contains(move)) {
+
+        if (!variants.contains(move)) {
             throw IllegalStateException()
         }
         matrix[first, second] = move
@@ -287,9 +276,9 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
 }
 
 fun getElementId(matrix: Matrix<Int>, el: Int): Pair<Int, Int> {
-    for (i in 0..matrix.height) {
-        for (j in 0..matrix.width) {
-            if (matrix[i, j] == 0) return i to j
+    for (i in 0 until matrix.height) {
+        for (j in 0 until matrix.width) {
+            if (matrix[i, j] == el) return i to j
         }
     }
     return -1 to -1

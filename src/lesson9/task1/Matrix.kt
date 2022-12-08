@@ -57,7 +57,7 @@ class MatrixImpl<E>(
     private val list = mutableListOf<E>()
 
     init {
-        for (i in 0..height * width) {
+        for (i in 0 until height * width) {
             list.add(e)
         }
     }
@@ -74,8 +74,21 @@ class MatrixImpl<E>(
         list[cell.row * width + cell.column] = value
     }
 
-    override fun equals(other: Any?) = TODO()
+    override fun equals(other: Any?): Boolean {
+        if (other !is MatrixImpl<*>
+            || other.width != width
+            || other.height != height
+        ) return false
+
+        for (i in 0 until height) {
+            for (j in 0 until width) {
+                if (other[i, j] != get(i, j)) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
 
     override fun toString(): String = TODO()
 }
-
