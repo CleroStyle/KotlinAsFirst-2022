@@ -312,6 +312,8 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val text = File(inputName).readText()
 
+    println(text)
+
     val stringWithoutB =
         Regex("""\*\*([\S\s]*?)\*\*""").replace(text)
         { "<b>" + it.value.replace("**", "") + "</b>" }
@@ -327,7 +329,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     for (i in 5 downTo 1) {
         val n = "\\n\\n".repeat(i)
         if (stringWithoutS.startsWith(n)) stringWithoutS = stringWithoutS.substring(n.length)
-        stringWithoutS = stringWithoutS.replace(n, "</p><p>")
+        stringWithoutS = Regex(n).replace(stringWithoutS) { "" }
     }
 
     val result = "<html><body><p>$stringWithoutS</p></body></html>"
@@ -336,16 +338,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 
     File(outputName).writeText(result)
 }
-
-/*fun String.replace(oldValue: String, newValue: String): String {
-    var startIndex = 0
-    var index = this.indexOf(oldValue, startIndex)
-    var result = this
-    while (index != -1) {
-        val tempString = result.substring(index)
-    }
-    return result
-}*/
 
 /**
  * Сложная (23 балла)
