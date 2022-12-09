@@ -57,6 +57,7 @@ class MatrixImpl<E>(
     private val list = mutableListOf<E>()
 
     init {
+        if (!(height > 0 && width > 0)) throw IllegalArgumentException()
         for (i in 0 until height * width) {
             list.add(e)
         }
@@ -90,5 +91,14 @@ class MatrixImpl<E>(
         return true
     }
 
-    override fun toString(): String = TODO()
+    override fun toString(): String {
+        var result = System.lineSeparator()
+        for (i in 0 until height) {
+            for (j in 0 until width) {
+                result += "${get(i, j)} "
+            }
+            result += System.lineSeparator()
+        }
+        return result
+    }
 }
