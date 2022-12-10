@@ -312,8 +312,6 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val text = File(inputName).readText()
 
-    println(text)
-
     val stringWithoutB =
         Regex("""\*\*([\S\s]*?)\*\*""").replace(text)
         { "<b>" + it.value.replace("**", "") + "</b>" }
@@ -330,8 +328,9 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     for (i in 5 downTo 1) {
         val n = "\n\n".repeat(i)
         if (stringWithoutS.startsWith(n)) stringWithoutS = stringWithoutS.drop(n.length)
-        if (stringWithoutS.endsWith(n)) stringWithoutS = stringWithoutS.dropLast(n.length)
-        if (stringWithoutS.endsWith("\t")) stringWithoutS = stringWithoutS.dropLast(2)
+        if (stringWithoutS.endsWith(n)
+            && !text.endsWith("\t")
+        ) stringWithoutS = stringWithoutS.dropLast(n.length)
         stringWithoutS = Regex(n).replace(stringWithoutS) { "</p><p>" }
     }
 
