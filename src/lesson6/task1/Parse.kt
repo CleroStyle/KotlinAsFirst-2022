@@ -202,7 +202,6 @@ fun fromRoman(roman: String): Int {
     val numbers = mapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000)
     var resultNumber = 0
     for (i in 0..roman.length - 2) {
-        if (!numbers.containsKey(roman[i])) return -1
         if (numbers[roman[i]]!! < numbers[roman[i + 1]]!!) {
             resultNumber -= numbers[roman[i]]!!
         } else {
