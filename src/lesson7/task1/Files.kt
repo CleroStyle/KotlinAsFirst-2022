@@ -325,6 +325,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         { "<s>" + it.value.replace("~~", "") + "</s>" }
             .replace("\r", "")
             .replace("\t", "")
+            .replace(" ", "")
 
     for (i in 5 downTo 1) {
         val n = "\n\n".repeat(i)
