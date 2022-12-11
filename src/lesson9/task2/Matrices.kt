@@ -4,6 +4,7 @@ package lesson9.task2
 
 import lesson9.task1.Matrix
 import lesson9.task1.createMatrix
+import java.util.PriorityQueue
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
@@ -323,4 +324,102 @@ fun getElementId(matrix: Matrix<Int>, el: Int): Pair<Int, Int> {
  *
  * Перед решением этой задачи НЕОБХОДИМО решить предыдущую
  */
-fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> = TODO()
+fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
+    val goalMatrices = mutableListOf<Matrix<Int>>()
+    val goalMatrix1 = createNewMatrix(
+        4, 4, listOf(
+            listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
+            listOf(9, 10, 11, 12), listOf(13, 14, 15, 0)
+        )
+    )
+    goalMatrices.add(goalMatrix1)
+    val goalMatrix2 = createNewMatrix(
+        4, 4, listOf(
+            listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
+            listOf(9, 10, 11, 12), listOf(13, 15, 14, 0)
+        )
+    )
+    goalMatrices.add(goalMatrix2)
+    val gameState = aStar(matrix, goalMatrices)
+    return getMoves(gameState)
+}
+
+fun aStar(startMatrix: Matrix<Int>, goalMatrices: List<Matrix<Int>>): GameState {
+    if (startMatrix in goalMatrices) return GameState(startMatrix, listOf())
+
+    val matricesQueue = PriorityQueue<GameState>(compareBy { it.f() })
+    val visitedMatrices = mutableSetOf<Matrix<Int>>()
+    val matricesInQueue = mutableSetOf<Matrix<Int>>()
+
+    val gameState = GameState(startMatrix, listOf())
+    matricesQueue.add(gameState)
+
+    while (matricesQueue.isNotEmpty()) {
+        val curState = matricesQueue.poll()
+        visitedMatrices.add(curState.matrix)
+        matricesQueue.remove(curState)
+
+        for (move in curState.getNeighbours()) {
+            val newMatrix = copy(curState.matrix)
+            val history = curState.history.toMutableList()
+            history.add(newMatrix)
+
+            val zeroCords = getElementId(newMatrix, 0)
+
+            val first = zeroCords.first
+            val second = zeroCords.second
+
+            val el = newMatrix[move.first, move.second]
+
+            newMatrix[first, second] = el
+            newMatrix[move.first, move.second] = 0
+            if (newMatrix in visitedMatrices || newMatrix in matricesInQueue) {
+                continue
+            }
+            val newState = GameState(newMatrix, history)
+
+            if (newMatrix in goalMatrices) {
+                return newState
+            }
+
+            matricesQueue.add(newState)
+            matricesInQueue.add(newState.matrix)
+        }
+    }
+    return GameState(startMatrix, listOf())
+}
+
+fun <E> createNewMatrix(height: Int, width: Int, values: List<List<E>>): Matrix<E> {
+    val matrix = createMatrix(height, width, values[0][0])
+    for (row in 0 until height) {
+        for (column in 0 until width) {
+            matrix[row, column] = values[row][column]
+        }
+    }
+    return matrix
+}
+
+fun <E> copy(matrix: Matrix<E>): Matrix<E> {
+    val values = mutableListOf<List<E>>()
+
+    for (i in 0 until matrix.height) {
+        val v = mutableListOf<E>()
+        for (j in 0 until matrix.width) {
+            v.add(matrix[i, j])
+        }
+        values.add(v)
+    }
+
+    return createNewMatrix(4, 4, values)
+}
+
+fun getMoves(state: GameState): MutableList<Int> {
+    val result = mutableListOf<Int>()
+    for (i in 0 until state.history.size - 1) {
+        val matrix = state.history[i]
+        val matrixAfter = state.history[i + 1]
+        val zeroMatrixCords = getElementId(matrix, 0)
+        result.add(matrixAfter[zeroMatrixCords.first, zeroMatrixCords.second])
+    }
+    return result
+}

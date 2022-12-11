@@ -335,7 +335,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     }
 
     val result = "<html><body><p>$stringWithoutS</p></body></html>"
-        .replace("\n \n", "</p><p>")
         .replace("\n", "")
 
     File(outputName).writeText(result)

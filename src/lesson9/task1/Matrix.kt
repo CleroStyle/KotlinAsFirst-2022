@@ -2,6 +2,8 @@
 
 package lesson9.task1
 
+/*import lesson9.task2.createNewMatrix*/
+
 // Урок 9: проектирование классов
 // Максимальное количество баллов = 40 (без очень трудных задач = 15)
 
@@ -92,13 +94,15 @@ class MatrixImpl<E>(
     }
 
     override fun toString(): String {
-        var result = System.lineSeparator()
+        val result = StringBuilder()
+        result.append(System.lineSeparator())
         for (i in 0 until height) {
             for (j in 0 until width) {
-                result += "${get(i, j)} "
+                if (get(i, j).toString().length == 1) result.append("${get(i, j)}  ")
+                else result.append("${get(i, j)} ")
             }
-            result += System.lineSeparator()
+            result.append(System.lineSeparator())
         }
-        return result
+        return result.toString()
     }
 }
