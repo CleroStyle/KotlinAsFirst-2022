@@ -2,6 +2,8 @@
 
 package lesson9.task1
 
+import kotlin.math.abs
+
 /*import lesson9.task2.createNewMatrix*/
 
 // Урок 9: проектирование классов

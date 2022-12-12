@@ -4,7 +4,7 @@ import lesson9.task1.Cell
 import lesson9.task1.Matrix
 import kotlin.math.abs
 
-class GameState(val matrix: Matrix<Int>, val history: List<Int>) {
+class GameState(val matrix: Matrix<Int>, val move: Int, val previousState: GameState?) {
 
     val f: Int
 
@@ -38,9 +38,7 @@ class GameState(val matrix: Matrix<Int>, val history: List<Int>) {
 
     fun h(): Int = manhDistance() /*+ lastMove()*/
 
-    fun g(): Int = history.size
-
-    fun f(): Int = h() /*+ g()*/
+    fun f(): Int = h()
 
     fun getNeighbours(): List<Cell> {
         val neighs = mutableListOf<Cell>()
@@ -66,6 +64,13 @@ class GameState(val matrix: Matrix<Int>, val history: List<Int>) {
         )
 
         return neighs
+    }
+
+    override fun hashCode(): Int = f
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is GameState) return false
+        return other.matrix == matrix
     }
 
     // value between -1 to height * width - 2
