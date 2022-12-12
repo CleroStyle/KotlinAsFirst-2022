@@ -4,7 +4,7 @@ import lesson9.task1.Cell
 import lesson9.task1.Matrix
 import kotlin.math.abs
 
-class GameState(val matrix: Matrix<Int>, val move: Int, val previousState: GameState?) {
+class GameState(val matrix: Matrix<Int>, val move: Int, val previousState: GameState?, val zeroCoords: Cell) {
 
     val f: Int
 
@@ -66,7 +66,7 @@ class GameState(val matrix: Matrix<Int>, val move: Int, val previousState: GameS
         return neighs
     }
 
-    override fun hashCode(): Int = f
+    override fun hashCode(): Int = 31 * f + zeroCoords.row * zeroCoords.column
 
     override fun equals(other: Any?): Boolean {
         if (other !is GameState) return false

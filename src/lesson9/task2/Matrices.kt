@@ -2,6 +2,7 @@
 
 package lesson9.task2
 
+import lesson9.task1.Cell
 import lesson9.task1.Matrix
 import lesson9.task1.createMatrix
 import java.util.PriorityQueue
@@ -250,8 +251,8 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
     var zeroPosition = getElementId(matrix, 0)
     for (move in moves) {
         val variants = mutableMapOf<Int, Pair<Int, Int>>()
-        val first = zeroPosition.first
-        val second = zeroPosition.second
+        val first = zeroPosition.row
+        val second = zeroPosition.column
 
         if (second != 0) variants[matrix[first, second - 1]] =
             first to second - 1
@@ -270,19 +271,19 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
         }
         matrix[first, second] = move
         matrix[variants[move]!!.first, variants[move]!!.second] = 0
-        zeroPosition = variants[move]!!.first to variants[move]!!.second
+        zeroPosition = Cell(variants[move]!!.first, variants[move]!!.second)
     }
 
     return matrix
 }
 
-fun getElementId(matrix: Matrix<Int>, el: Int): Pair<Int, Int> {
+fun getElementId(matrix: Matrix<Int>, el: Int): Cell {
     for (i in 0 until matrix.height) {
         for (j in 0 until matrix.width) {
-            if (matrix[i, j] == el) return i to j
+            if (matrix[i, j] == el) return Cell(i, j)
         }
     }
-    return -1 to -1
+    return Cell(-1, -1)
 }
 
 /**
@@ -348,9 +349,10 @@ fun aStar(startMatrix: Matrix<Int>, goalMatrices: List<Matrix<Int>>): List<Int> 
 
     val statesQueue = PriorityQueue<GameState>(compareBy { it.f })
     val visitedStates = mutableSetOf<GameState>()
-    val statesInQueue = mutableSetOf<GameState>()
 
-    val gameState = GameState(startMatrix, -1, null)
+    val zeroCoords = getElementId(startMatrix, 0)
+
+    val gameState = GameState(startMatrix, -1, null, zeroCoords)
     statesQueue.add(gameState)
 
     while (statesQueue.isNotEmpty()) {
@@ -361,18 +363,13 @@ fun aStar(startMatrix: Matrix<Int>, goalMatrices: List<Matrix<Int>>): List<Int> 
         for (move in curState.getNeighbours()) {
             val newMatrix = copy(curState.matrix)
 
-            val zeroCords = getElementId(newMatrix, 0)
-
-            val first = zeroCords.first
-            val second = zeroCords.second
-
             val el = newMatrix[move]
 
-            newMatrix[first, second] = el
+            newMatrix[curState.zeroCoords.row, curState.zeroCoords.column] = el
             newMatrix[move] = 0
-            val newState = GameState(newMatrix, el, curState)
+            val newState = GameState(newMatrix, el, curState, move)
 
-            if (newState in visitedStates || newState in statesInQueue) {
+            if (newState in visitedStates) {
                 continue
             }
 
@@ -381,7 +378,7 @@ fun aStar(startMatrix: Matrix<Int>, goalMatrices: List<Matrix<Int>>): List<Int> 
             }
 
             statesQueue.add(newState)
-            statesInQueue.add(newState)
+            visitedStates.add(newState)
         }
     }
     return listOf()
