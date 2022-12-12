@@ -1,9 +1,16 @@
 package lesson9.task2
 
+import lesson9.task1.Cell
 import lesson9.task1.Matrix
 import kotlin.math.abs
 
-class GameState(val matrix: Matrix<Int>, val history: List<Matrix<Int>>) {
+class GameState(val matrix: Matrix<Int>, val history: List<Int>) {
+
+    val f: Int
+
+    init {
+        f = f()
+    }
 
     fun manhDistance(): Int {
         var result = 0
@@ -35,27 +42,27 @@ class GameState(val matrix: Matrix<Int>, val history: List<Matrix<Int>>) {
 
     fun f(): Int = h() /*+ g()*/
 
-    fun getNeighbours(): List<Pair<Int, Int>> {
-        val neighs = mutableListOf<Pair<Int, Int>>()
+    fun getNeighbours(): List<Cell> {
+        val neighs = mutableListOf<Cell>()
         val zeroCords = getElementId(0)
 
         val first = zeroCords.first
         val second = zeroCords.second
 
         if (second != 0) neighs.add(
-            first to second - 1
+            Cell(first, second - 1)
         )
 
         if (second != 3) neighs.add(
-            first to second + 1
+            Cell(first, second + 1)
         )
 
         if (first != 0) neighs.add(
-            first - 1 to second
+            Cell(first - 1, second)
         )
 
         if (first != 3) neighs.add(
-            first + 1 to second
+            Cell(first + 1, second)
         )
 
         return neighs

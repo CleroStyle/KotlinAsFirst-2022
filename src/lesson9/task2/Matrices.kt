@@ -341,13 +341,13 @@ fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
     )
     goalMatrices.add(goalMatrix2)
     val gameState = aStar(matrix, goalMatrices)
-    return getMoves(gameState)
+    return gameState
 }
 
-fun aStar(startMatrix: Matrix<Int>, goalMatrices: List<Matrix<Int>>): GameState {
-    if (startMatrix in goalMatrices) return GameState(startMatrix, listOf())
+fun aStar(startMatrix: Matrix<Int>, goalMatrices: List<Matrix<Int>>): List<Int> {
+    if (startMatrix in goalMatrices) return listOf()
 
-    val matricesQueue = PriorityQueue<GameState>(compareBy { it.f() })
+    val matricesQueue = PriorityQueue<GameState>(compareBy { it.f })
     val visitedMatrices = mutableSetOf<Matrix<Int>>()
     val matricesInQueue = mutableSetOf<Matrix<Int>>()
 
@@ -362,31 +362,31 @@ fun aStar(startMatrix: Matrix<Int>, goalMatrices: List<Matrix<Int>>): GameState 
         for (move in curState.getNeighbours()) {
             val newMatrix = copy(curState.matrix)
             val history = curState.history.toMutableList()
-            history.add(newMatrix)
+            history.add(newMatrix[move])
 
             val zeroCords = getElementId(newMatrix, 0)
 
             val first = zeroCords.first
             val second = zeroCords.second
 
-            val el = newMatrix[move.first, move.second]
+            val el = newMatrix[move]
 
             newMatrix[first, second] = el
-            newMatrix[move.first, move.second] = 0
+            newMatrix[move] = 0
             if (newMatrix in visitedMatrices || newMatrix in matricesInQueue) {
                 continue
             }
             val newState = GameState(newMatrix, history)
 
             if (newMatrix in goalMatrices) {
-                return newState
+                return newState.history
             }
 
             matricesQueue.add(newState)
             matricesInQueue.add(newState.matrix)
         }
     }
-    return GameState(startMatrix, listOf())
+    return listOf()
 }
 
 fun <E> createNewMatrix(height: Int, width: Int, values: List<List<E>>): Matrix<E> {
@@ -411,15 +411,4 @@ fun <E> copy(matrix: Matrix<E>): Matrix<E> {
     }
 
     return createNewMatrix(4, 4, values)
-}
-
-fun getMoves(state: GameState): MutableList<Int> {
-    val result = mutableListOf<Int>()
-    for (i in 0 until state.history.size - 1) {
-        val matrix = state.history[i]
-        val matrixAfter = state.history[i + 1]
-        val zeroMatrixCords = getElementId(matrix, 0)
-        result.add(matrixAfter[zeroMatrixCords.first, zeroMatrixCords.second])
-    }
-    return result
 }
