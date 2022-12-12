@@ -67,7 +67,17 @@ class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: G
         return conflictCount
     }
 
-    fun h(): Int = manhDistance() + lastMove() + cornerTiles()
+    fun simpleHeur(): Int {
+        var dst = 0
+        for (i in 0 until matrix.field.size) {
+            if (matrix.field[i] - 1 != i) {
+                dst += 1
+            }
+        }
+        return dst
+    }
+
+    fun h(): Int = manhDistance() + lastMove() + cornerTiles() + simpleHeur()
 
     fun f(): Int = h()
 
