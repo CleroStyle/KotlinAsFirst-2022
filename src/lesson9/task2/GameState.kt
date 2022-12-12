@@ -1,7 +1,6 @@
 package lesson9.task2
 
 import lesson9.task1.Cell
-import lesson9.task1.Matrix
 import lesson9.task1.MatrixImpl
 import kotlin.math.abs
 
@@ -29,16 +28,16 @@ class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: G
         return result
     }
 
-    /*fun lastMove(): Int {
+    fun lastMove(): Int {
         if (matrix[matrix.height - 1, matrix.width - 1] == matrix.height * matrix.width - 1
             || matrix[matrix.height - 1, matrix.width - 1] == matrix.height * (matrix.width - 1)
         ) return 0
         return 2
-    }*/
+    }
 
     fun lastNode(): String = matrix.toString()
 
-    fun h(): Int = manhDistance() /*+ lastMove()*/
+    fun h(): Int = manhDistance() + lastMove()
 
     fun f(): Int = h()
 
@@ -75,7 +74,10 @@ class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: G
     override fun equals(other: Any?): Boolean {
         if (other !is GameState) return false
 
-        for (i in 0 until matrix.height * matrix.width) if (matrix.field[i] != other.matrix.field[i]) return false
+        val upperBound = matrix.height * matrix.width
+        for (i in 0 until upperBound) {
+            if (matrix.field[i] != other.matrix.field[i]) return false
+        }
 
         return true
     }
@@ -86,11 +88,12 @@ class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: G
         value / matrix.height to value % matrix.width
 
     fun getElementId(el: Int): Pair<Int, Int> {
-        for (i in 0 until matrix.height) {
-            for (j in 0 until matrix.width) {
-                if (matrix[i, j] == el) return i to j
-            }
+        val field = matrix.field
+
+        for (i in 0 until field.size) {
+            if (field[i] == el) return i / matrix.height to i % matrix.width
         }
+
         return -1 to -1
     }
 }
