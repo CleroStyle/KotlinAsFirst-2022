@@ -37,7 +37,37 @@ class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: G
 
     fun lastNode(): String = matrix.toString()
 
-    fun h(): Int = manhDistance() + lastMove()
+    fun cornerTiles(): Int {
+        var conflictCount = 0
+
+        // upper left corner
+        if (matrix.field[0] != 1
+            && matrix.field[1] == 2
+            || matrix.field[matrix.width] == matrix.width + 1
+        ) {
+            conflictCount += 1
+        }
+
+        // upper right corner
+        if (matrix.field[matrix.width - 1] != matrix.width
+            && matrix.field[matrix.width - 2] == matrix.width - 1
+            || matrix.field[matrix.width * 2] == matrix.width * 2 + 1
+        ) {
+            conflictCount += 1
+        }
+
+        // lower left corner
+        if (matrix.field[matrix.field.size + 1 - matrix.width] != matrix.field.size + 2 - matrix.width
+            && matrix.field[matrix.width * 2 + 1] == matrix.width * 2 + 2
+            || matrix.field[matrix.width * 3 + 2] == matrix.width * 3 + 3
+        ) {
+            conflictCount += 1
+        }
+
+        return conflictCount
+    }
+
+    fun h(): Int = manhDistance() + lastMove() + cornerTiles()
 
     fun f(): Int = h()
 
