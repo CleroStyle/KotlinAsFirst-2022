@@ -25,6 +25,8 @@ interface Matrix<E> {
     /** Ширина */
     val width: Int
 
+    val field: MutableList<E>
+
     /**
      * Доступ к ячейке.
      * Методы могут бросить исключение, если ячейка не существует или пуста
@@ -60,6 +62,8 @@ class MatrixImpl<E>(
     override val height: Int, override val width: Int, e: E
 ) : Matrix<E> {
     val list = mutableListOf<E>()
+    override val field: MutableList<E>
+        get() = list
 
     init {
         if (!(height > 0 && width > 0)) throw IllegalArgumentException()
@@ -97,11 +101,6 @@ class MatrixImpl<E>(
         return true
     }
 
-    /*fun vec_equ(other: MatrixImpl<E>): Boolean
-    {
-        val vector: Vector128
-    }
-*/
     override fun toString(): String {
         val result = StringBuilder()
         result.append(System.lineSeparator())

@@ -75,13 +75,7 @@ class GameState(val matrix: Matrix<Int>, val move: Int, val previousState: GameS
     override fun equals(other: Any?): Boolean {
         if (other !is GameState) return false
 
-        for (i in 0 until matrix.height) {
-            for (j in 0 until matrix.width) {
-                if (other.matrix[i, j] != matrix[i, j]) {
-                    return false
-                }
-            }
-        }
+        for (i in 0 until matrix.height * matrix.width) if (matrix.field[i] != other.matrix.field[i]) return false
 
         return true
     }
