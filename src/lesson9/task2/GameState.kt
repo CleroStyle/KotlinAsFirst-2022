@@ -5,7 +5,7 @@ import lesson9.task1.Matrix
 import lesson9.task1.MatrixImpl
 import kotlin.math.abs
 
-class GameState(val matrix: Matrix<Int>, val move: Int, val previousState: GameState?, val zeroCoords: Cell) {
+class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: GameState?, val zeroCoords: Cell) {
 
     val f: Int
     private val _hashCode: Int by lazy { calculateHashCode() }

@@ -25,8 +25,6 @@ interface Matrix<E> {
     /** Ширина */
     val width: Int
 
-    val field: MutableList<E>
-
     /**
      * Доступ к ячейке.
      * Методы могут бросить исключение, если ячейка не существует или пуста
@@ -62,7 +60,7 @@ class MatrixImpl<E>(
     override val height: Int, override val width: Int, e: E
 ) : Matrix<E> {
     val list = mutableListOf<E>()
-    override val field: MutableList<E>
+    val field: MutableList<E>
         get() = list
 
     init {

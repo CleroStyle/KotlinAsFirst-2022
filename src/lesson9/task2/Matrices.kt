@@ -4,6 +4,7 @@ package lesson9.task2
 
 import lesson9.task1.Cell
 import lesson9.task1.Matrix
+import lesson9.task1.MatrixImpl
 import lesson9.task1.createMatrix
 import java.util.PriorityQueue
 
@@ -341,10 +342,10 @@ fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
         )
     )
     goalMatrices.add(goalMatrix2)
-    return aStar(matrix, goalMatrices)
+    return aStar(matrix as MatrixImpl, goalMatrices)
 }
 
-fun aStar(startMatrix: Matrix<Int>, goalMatrices: List<Matrix<Int>>): List<Int> {
+fun aStar(startMatrix: MatrixImpl<Int>, goalMatrices: List<Matrix<Int>>): List<Int> {
     if (startMatrix in goalMatrices) return listOf()
 
     val statesQueue = PriorityQueue<GameState>(compareBy { it.f })
@@ -367,7 +368,7 @@ fun aStar(startMatrix: Matrix<Int>, goalMatrices: List<Matrix<Int>>): List<Int> 
 
             newMatrix[curState.zeroCoords.row, curState.zeroCoords.column] = el
             newMatrix[move] = 0
-            val newState = GameState(newMatrix, el, curState, move)
+            val newState = GameState(newMatrix as MatrixImpl<Int>, el, curState, move)
 
             if (newState in visitedStates) {
                 continue
