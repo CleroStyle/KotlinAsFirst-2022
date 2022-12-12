@@ -207,7 +207,6 @@ fun fromRoman(roman: String): Int {
         }
     }
 
-    if (!numbers.containsKey(roman.last())) return -1
     resultNumber += numbers[roman.last()]!!
 
     return resultNumber
