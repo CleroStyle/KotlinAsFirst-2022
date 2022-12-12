@@ -2,6 +2,7 @@
 
 package lesson9.task1
 
+import lesson9.task2.GameState
 import kotlin.math.abs
 
 /*import lesson9.task2.createNewMatrix*/
@@ -58,7 +59,7 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = MatrixImpl(heig
 class MatrixImpl<E>(
     override val height: Int, override val width: Int, e: E
 ) : Matrix<E> {
-    private val list = mutableListOf<E>()
+    val list = mutableListOf<E>()
 
     init {
         if (!(height > 0 && width > 0)) throw IllegalArgumentException()
@@ -92,9 +93,15 @@ class MatrixImpl<E>(
                 }
             }
         }
+
         return true
     }
 
+    /*fun vec_equ(other: MatrixImpl<E>): Boolean
+    {
+        val vector: Vector128
+    }
+*/
     override fun toString(): String {
         val result = StringBuilder()
         result.append(System.lineSeparator())

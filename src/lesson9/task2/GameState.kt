@@ -2,11 +2,13 @@ package lesson9.task2
 
 import lesson9.task1.Cell
 import lesson9.task1.Matrix
+import lesson9.task1.MatrixImpl
 import kotlin.math.abs
 
 class GameState(val matrix: Matrix<Int>, val move: Int, val previousState: GameState?, val zeroCoords: Cell) {
 
     val f: Int
+    private val _hashCode: Int by lazy { calculateHashCode() }
 
     init {
         f = f()
@@ -66,11 +68,22 @@ class GameState(val matrix: Matrix<Int>, val move: Int, val previousState: GameS
         return neighs
     }
 
-    override fun hashCode(): Int = 31 * f + zeroCoords.row * zeroCoords.column
+    override fun hashCode(): Int = _hashCode
+
+    private fun calculateHashCode(): Int = 31 * f + zeroCoords.row * zeroCoords.column
 
     override fun equals(other: Any?): Boolean {
         if (other !is GameState) return false
-        return other.matrix == matrix
+
+        for (i in 0 until matrix.height) {
+            for (j in 0 until matrix.width) {
+                if (other.matrix[i, j] != matrix[i, j]) {
+                    return false
+                }
+            }
+        }
+
+        return true
     }
 
     // value between -1 to height * width - 2
