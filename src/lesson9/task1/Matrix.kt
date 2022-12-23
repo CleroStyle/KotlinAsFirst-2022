@@ -73,6 +73,16 @@ fun <E> copy(matrix: Matrix<E>): Matrix<E> {
     return listToMatrix(4, 4, values)
 }
 
+fun MatrixImpl<Int>.getElementId(el: Int): Pair<Int, Int> {
+    val field = this.field
+
+    for (i in 0 until field.size) {
+        if (field[i] == el) return i / this.height to i % this.width
+    }
+
+    return -1 to -1
+}
+
 /**
  * Средняя сложность (считается двумя задачами в 3 балла каждая)
  *

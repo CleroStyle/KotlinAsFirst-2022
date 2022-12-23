@@ -2,6 +2,7 @@ package lesson9.task2
 
 import lesson9.task1.Cell
 import lesson9.task1.MatrixImpl
+import lesson9.task1.getElementId
 import kotlin.math.abs
 
 class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: GameState?, val zeroCoords: Cell) {
@@ -82,7 +83,7 @@ class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: G
 
     fun getNeighbours(): List<Cell> {
         val neighs = mutableListOf<Cell>()
-        val zeroCords = getElementId(0)
+        val zeroCords = matrix.getElementId(0)
 
         val first = zeroCords.first
         val second = zeroCords.second
@@ -123,14 +124,4 @@ class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: G
     // value of "pyatnashka" - 1
     fun getCoordinates(value: Int) =
         value / matrix.height to value % matrix.width
-
-    fun getElementId(el: Int): Pair<Int, Int> {
-        val field = matrix.field
-
-        for (i in 0 until field.size) {
-            if (field[i] == el) return i / matrix.height to i % matrix.width
-        }
-
-        return -1 to -1
-    }
 }
