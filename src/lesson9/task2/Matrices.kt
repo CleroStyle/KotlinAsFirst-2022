@@ -2,10 +2,7 @@
 
 package lesson9.task2
 
-import lesson9.task1.Cell
-import lesson9.task1.Matrix
-import lesson9.task1.MatrixImpl
-import lesson9.task1.createMatrix
+import lesson9.task1.*
 import java.util.PriorityQueue
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -328,14 +325,14 @@ fun getElementId(matrix: Matrix<Int>, el: Int): Cell {
  */
 fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
     val goalMatrices = mutableListOf<Matrix<Int>>()
-    val goalMatrix1 = createNewMatrix(
+    val goalMatrix1 = listToMatrix(
         4, 4, listOf(
             listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
             listOf(9, 10, 11, 12), listOf(13, 14, 15, 0)
         )
     )
     goalMatrices.add(goalMatrix1)
-    val goalMatrix2 = createNewMatrix(
+    val goalMatrix2 = listToMatrix(
         4, 4, listOf(
             listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
             listOf(9, 10, 11, 12), listOf(13, 15, 14, 0)
@@ -383,30 +380,6 @@ fun aStar(startMatrix: MatrixImpl<Int>, goalMatrices: List<Matrix<Int>>): List<I
         }
     }
     return listOf()
-}
-
-fun <E> createNewMatrix(height: Int, width: Int, values: List<List<E>>): Matrix<E> {
-    val matrix = createMatrix(height, width, values[0][0])
-    for (row in 0 until height) {
-        for (column in 0 until width) {
-            matrix[row, column] = values[row][column]
-        }
-    }
-    return matrix
-}
-
-fun <E> copy(matrix: Matrix<E>): Matrix<E> {
-    val values = mutableListOf<List<E>>()
-
-    for (i in 0 until matrix.height) {
-        val v = mutableListOf<E>()
-        for (j in 0 until matrix.width) {
-            v.add(matrix[i, j])
-        }
-        values.add(v)
-    }
-
-    return createNewMatrix(4, 4, values)
 }
 
 fun getHistory(state: GameState): List<Int> {

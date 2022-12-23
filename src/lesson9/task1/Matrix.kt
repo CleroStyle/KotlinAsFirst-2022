@@ -5,8 +5,6 @@ package lesson9.task1
 import lesson9.task2.GameState
 import kotlin.math.abs
 
-/*import lesson9.task2.createNewMatrix*/
-
 // Урок 9: проектирование классов
 // Максимальное количество баллов = 40 (без очень трудных задач = 15)
 
@@ -51,6 +49,30 @@ interface Matrix<E> {
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = MatrixImpl(height, width, e)
 
+fun <E> listToMatrix(height: Int, width: Int, values: List<List<E>>): Matrix<E> {
+    val matrix = createMatrix(height, width, values[0][0])
+    for (row in 0 until height) {
+        for (column in 0 until width) {
+            matrix[row, column] = values[row][column]
+        }
+    }
+    return matrix
+}
+
+fun <E> copy(matrix: Matrix<E>): Matrix<E> {
+    val values = mutableListOf<List<E>>()
+
+    for (i in 0 until matrix.height) {
+        val v = mutableListOf<E>()
+        for (j in 0 until matrix.width) {
+            v.add(matrix[i, j])
+        }
+        values.add(v)
+    }
+
+    return listToMatrix(4, 4, values)
+}
+
 /**
  * Средняя сложность (считается двумя задачами в 3 балла каждая)
  *
@@ -59,7 +81,7 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = MatrixImpl(heig
 class MatrixImpl<E>(
     override val height: Int, override val width: Int, e: E
 ) : Matrix<E> {
-    val list = mutableListOf<E>()
+    private val list = mutableListOf<E>()
     val field: MutableList<E>
         get() = list
 
