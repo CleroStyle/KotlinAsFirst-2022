@@ -7,7 +7,6 @@ import kotlin.math.abs
 class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: GameState?, val zeroCoords: Cell) {
 
     val f: Int
-    private val _hashCode: Int by lazy { calculateHashCode() }
 
     init {
         f = f()
@@ -107,9 +106,7 @@ class GameState(val matrix: MatrixImpl<Int>, val move: Int, val previousState: G
         return neighs
     }
 
-    override fun hashCode(): Int = _hashCode
-
-    private fun calculateHashCode(): Int = 31 * f + zeroCoords.row * zeroCoords.column
+    override fun hashCode(): Int = 31 * f + zeroCoords.row * zeroCoords.column
 
     override fun equals(other: Any?): Boolean {
         if (other !is GameState) return false
